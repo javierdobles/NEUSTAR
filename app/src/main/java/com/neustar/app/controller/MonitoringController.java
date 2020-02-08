@@ -36,12 +36,14 @@ public class MonitoringController implements CommandLineRunner {
         List<String> cpu = displayCpuProcess(arg);
         List<String> memory = displayMemoryUsage(arg);
         List<String> disk = displayDiskSpace(arg);
+        List<String> diskHuman = displayDiskSpaceHumanReadble(arg);
 
         Map<String, List<String>> output = new HashMap<String, List<String>>();
         output.put(Constants.PROCESS, process);
         output.put(Constants.CPU, cpu);
         output.put(Constants.MEMORY, memory);
         output.put(Constants.DISK, disk);
+        output.put(Constants.DISK_HUMAN, diskHuman);
 
         pdfUtils.exportToPDF(arg, output);
       }
@@ -126,5 +128,20 @@ public class MonitoringController implements CommandLineRunner {
     }
 
     return diskSpace;
+  }
+
+  private List<String> displayDiskSpaceHumanReadble(final String host) {
+    List<String> diskSpaceHumanReadble = diskService.getDiskSpaceHumanReadable(host);
+    if (diskSpaceHumanReadble != null) {
+      Stream.of(diskSpaceHumanReadble)
+          .forEach(
+              diskSpaceAvailable -> {
+                LOG.info("Disk Space Available: \r {} ", diskSpaceAvailable);
+              });
+    } else {
+      LOG.error("unable to retrieve the disk space available, something went wrong");
+    }
+
+    return diskSpaceHumanReadble;
   }
 }

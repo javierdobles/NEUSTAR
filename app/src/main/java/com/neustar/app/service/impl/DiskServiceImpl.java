@@ -31,7 +31,7 @@ public class DiskServiceImpl implements DiskService {
       ChannelExec channel = null;
       session.connect(Constants.TIME_OUT);
       channel = (ChannelExec) session.openChannel("exec");
-      channel.setCommand("df -H");
+      channel.setCommand("df");
       channel.setInputStream(null);
       InputStream output = channel.getInputStream();
       channel.connect(Constants.TIME_OUT);
@@ -52,5 +52,31 @@ public class DiskServiceImpl implements DiskService {
 
   public DiskServiceImpl(AnnotationConfigApplicationContext context) {
     this.context = context;
+  }
+
+  @Override
+  public List<String> getDiskSpaceHumanReadable(String host) {
+    Session session = context.getBean(Session.class, host);
+    try {
+      ChannelExec channel = null;
+      session.connect(Constants.TIME_OUT);
+      channel = (ChannelExec) session.openChannel("exec");
+      channel.setCommand("df -H");
+      channel.setInputStream(null);
+      InputStream output = channel.getInputStream();
+      channel.connect(Constants.TIME_OUT);
+
+      String text = IOUtils.toString(output, StandardCharsets.UTF_8.name());
+      channel.disconnect();
+      return Stream.of(text.split(",")).collect(Collectors.toList());
+
+    } catch (JSchException | IOException e) {
+      LOG.error("something goes wrong with the execution of the command, please contact an admin");
+
+    } finally {
+
+      session.disconnect();
+    }
+    return null;
   }
 }

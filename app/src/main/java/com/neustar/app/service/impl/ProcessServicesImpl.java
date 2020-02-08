@@ -27,7 +27,7 @@ public class ProcessServicesImpl implements ProcessService {
   @Override
   public List<String> getRunningProcess(final String host) {
     Session session = context.getBean(Session.class, host);
-
+    LOG.info("class: {}", Session.class);
     try {
       ChannelExec channel = null;
       session.connect(Constants.TIME_OUT);

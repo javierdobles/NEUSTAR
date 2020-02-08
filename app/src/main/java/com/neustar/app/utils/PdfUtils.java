@@ -33,6 +33,7 @@ public class PdfUtils {
               System.getProperty("user.home") + "/" + host.replace(".", "-") + ".pdf"));
       List<String> cpu = output.get(Constants.CPU);
       List<String> disk = output.get(Constants.DISK);
+      List<String> diskHuman = output.get(Constants.DISK_HUMAN);
       List<String> memory = output.get(Constants.MEMORY);
       List<String> process = output.get(Constants.PROCESS);
       document.open();
@@ -45,9 +46,14 @@ public class PdfUtils {
       document.add(addParaGraph(headerCpu));
       document.add(Chunk.NEWLINE);
       String headerDisk = disk.get(0);
-      document.add(addChunk("DISK Report"));
+      document.add(addChunk("DISK Machine Report"));
       document.add(Chunk.NEWLINE);
       document.add(addParaGraph(headerDisk));
+      document.add(Chunk.NEWLINE);
+      String headerDiskHuman = diskHuman.get(0);
+      document.add(addChunk("DISK Human Readable Report"));
+      document.add(Chunk.NEWLINE);
+      document.add(addParaGraph(headerDiskHuman));
       document.add(Chunk.NEWLINE);
       String headerMemory = memory.get(0);
       document.add(addChunk("MEMORY Report"));
