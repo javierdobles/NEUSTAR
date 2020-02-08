@@ -6,7 +6,6 @@ import com.neustar.app.service.DiskService;
 import com.neustar.app.service.MemoryService;
 import com.neustar.app.service.ProcessService;
 import com.neustar.app.utils.PdfUtils;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,13 +36,13 @@ public class MonitoringController implements CommandLineRunner {
         List<String> cpu = displayCpuProcess(arg);
         List<String> memory = displayMemoryUsage(arg);
         List<String> disk = displayDiskSpace(arg);
-        
-        Map<String,List<String>> output = new HashMap<String,List<String>>();
+
+        Map<String, List<String>> output = new HashMap<String, List<String>>();
         output.put(Constants.PROCESS, process);
         output.put(Constants.CPU, cpu);
         output.put(Constants.MEMORY, memory);
         output.put(Constants.DISK, disk);
-        
+
         pdfUtils.exportToPDF(arg, output);
       }
 
@@ -93,7 +92,7 @@ public class MonitoringController implements CommandLineRunner {
     } else {
       LOG.error("unable to retrieve the list of process consuming high CPU, something went wrong");
     }
-    
+
     return highCpu;
   }
 
@@ -107,24 +106,25 @@ public class MonitoringController implements CommandLineRunner {
                 LOG.info("High Memory: \r {} ", process);
               });
     } else {
-      LOG.error("unable to retrieve the list of process consuming high Memory, something went wrong");
+      LOG.error(
+          "unable to retrieve the list of process consuming high Memory, something went wrong");
     }
-    
+
     return memory;
   }
-  
+
   private List<String> displayDiskSpace(final String host) {
-	  List<String> diskSpace = diskService.getDiskSpace(host);
-	  if (diskSpace != null) {
-		  Stream.of(diskSpace)
+    List<String> diskSpace = diskService.getDiskSpace(host);
+    if (diskSpace != null) {
+      Stream.of(diskSpace)
           .forEach(
               diskSpaceAvailable -> {
                 LOG.info("Disk Space Available: \r {} ", diskSpaceAvailable);
               });
-	  }else {
-	      LOG.error("unable to retrieve the disk space available, something went wrong");
-	    }
-	  
-	  return diskSpace;
+    } else {
+      LOG.error("unable to retrieve the disk space available, something went wrong");
+    }
+
+    return diskSpace;
   }
 }
