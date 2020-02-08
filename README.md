@@ -13,7 +13,7 @@ This markdown is to guide the user in the building and deployment of the tool.
 
 ## Installation
 
- 1. Config modification
+ ### Config modification
 
 for the usage of the application, you need to provide your ssh credentials, you need to: ${PROJECT_ROOT_DIRECTORY}/src/main/resources/ssh.properties and modify the credentials with your credentials, after that, the jar will use these credentials to connect to any box you require.
 
@@ -25,7 +25,7 @@ Example:
 
 after the above step is completed, please proceed with the below steps.
 
- 2. Building
+ ### Building
 
 get into the root directory of the project and type the next command:
 
@@ -37,7 +37,7 @@ if the build fail, you need to first format the code with the next command:
 
 after the process above is completed, you should be able to get the jar file in the  **build/libs**  directory with the name of **app.jar**
 
- 3. Running test integration
+ ### Running test integration
 
 if you want to only run the test integration:
 
@@ -46,7 +46,7 @@ if you want to only run the test integration:
 the report of the test you'll find it in ${PROJECT_ROOT_DIRECTORY}/build/reports/tests/test/index.html
 open the index.html to review the report.
 
- 4. Clean up of directory
+ ### Clean up of directory
 
 if you want to clean up the project, type the next command in the root directory of the project:
 
