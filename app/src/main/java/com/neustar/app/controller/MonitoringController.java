@@ -76,7 +76,7 @@ public class MonitoringController implements CommandLineRunner {
       Stream.of(processRunning)
           .forEach(
               process -> {
-                LOG.info("process: \r {} ", process);
+                LOG.info("process: \n {} ", process);
               });
     } else {
       LOG.error("unable to retrieve the list of process, something went wrong");
@@ -107,7 +107,7 @@ public class MonitoringController implements CommandLineRunner {
       Stream.of(memory)
           .forEach(
               process -> {
-                LOG.info("High Memory: \r {} ", process);
+                LOG.info("High Memory: \n {} ", process);
               });
     } else {
       LOG.error(
@@ -123,7 +123,7 @@ public class MonitoringController implements CommandLineRunner {
       Stream.of(diskSpace)
           .forEach(
               diskSpaceAvailable -> {
-                LOG.info("Disk Space Available: \r {} ", diskSpaceAvailable);
+                LOG.info("Disk Space Available: \n {} ", diskSpaceAvailable);
               });
     } else {
       LOG.error("unable to retrieve the disk space available, something went wrong");
@@ -138,7 +138,7 @@ public class MonitoringController implements CommandLineRunner {
       Stream.of(diskSpaceHumanReadble)
           .forEach(
               diskSpaceAvailable -> {
-                LOG.info("Disk Space Available: \r {} ", diskSpaceAvailable);
+                LOG.info("Disk Space Human Readable Available: \n {} ", diskSpaceAvailable);
               });
     } else {
       LOG.error("unable to retrieve the disk space available, something went wrong");
