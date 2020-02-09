@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
+/** @author Javier Dobles */
 @Service
 public class DiskServiceImpl implements DiskService {
 
@@ -27,6 +28,7 @@ public class DiskServiceImpl implements DiskService {
   @Override
   public List<String> getDiskSpace(String host) {
     Session session = context.getBean(Session.class, host);
+    List<String> result = null;
     try {
       ChannelExec channel = null;
       session.connect(Constants.TIME_OUT);
@@ -38,7 +40,7 @@ public class DiskServiceImpl implements DiskService {
 
       String text = IOUtils.toString(output, StandardCharsets.UTF_8.name());
       channel.disconnect();
-      return Stream.of(text.split(",")).collect(Collectors.toList());
+      result = Stream.of(text.split(",")).collect(Collectors.toList());
 
     } catch (JSchException | IOException e) {
       LOG.error("something goes wrong with the execution of the command, please contact an admin");
@@ -47,9 +49,14 @@ public class DiskServiceImpl implements DiskService {
 
       session.disconnect();
     }
-    return null;
+    return result;
   }
 
+  /**
+   * Disk Services Constructor.
+   *
+   * @param context instance of {@link AnnotationConfigApplicationContext}.
+   */
   public DiskServiceImpl(AnnotationConfigApplicationContext context) {
     this.context = context;
   }
@@ -57,6 +64,7 @@ public class DiskServiceImpl implements DiskService {
   @Override
   public List<String> getDiskSpaceHumanReadable(String host) {
     Session session = context.getBean(Session.class, host);
+    List<String> result = null;
     try {
       ChannelExec channel = null;
       session.connect(Constants.TIME_OUT);
@@ -68,7 +76,7 @@ public class DiskServiceImpl implements DiskService {
 
       String text = IOUtils.toString(output, StandardCharsets.UTF_8.name());
       channel.disconnect();
-      return Stream.of(text.split(",")).collect(Collectors.toList());
+      result = Stream.of(text.split(",")).collect(Collectors.toList());
 
     } catch (JSchException | IOException e) {
       LOG.error("something goes wrong with the execution of the command, please contact an admin");
@@ -77,6 +85,6 @@ public class DiskServiceImpl implements DiskService {
 
       session.disconnect();
     }
-    return null;
+    return result;
   }
 }

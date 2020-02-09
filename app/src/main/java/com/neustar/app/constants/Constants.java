@@ -1,5 +1,6 @@
 package com.neustar.app.constants;
 
+/** @author Javier Dobles */
 public class Constants {
 
   public static final String CPU = "CPU";

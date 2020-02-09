@@ -49,7 +49,7 @@ class CPUServiceImplTest {
     doNothing().when(session).disconnect();
     doNothing().when(channel).disconnect();
 
-    List<String> cpuTop = cpuServices.getTopThreeCpuProcess("TEST");
+    List<String> cpuTop = cpuServices.getTopThreeCpuProcess("100.25.143.64");
 
     assertEquals(cpuTop.size(), 2);
   }

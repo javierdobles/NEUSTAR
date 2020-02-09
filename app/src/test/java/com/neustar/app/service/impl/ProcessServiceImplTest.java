@@ -49,7 +49,7 @@ class ProcessServiceImplTest {
     doNothing().when(session).disconnect();
     doNothing().when(channel).disconnect();
 
-    List<String> process = processService.getRunningProcess("TEST");
+    List<String> process = processService.getRunningProcess("100.25.143.64");
 
     assertEquals(process.size(), 2);
   }

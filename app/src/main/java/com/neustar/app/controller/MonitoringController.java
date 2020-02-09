@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+/** @author Javier Dobles */
 @Component
 public class MonitoringController implements CommandLineRunner {
 
@@ -30,7 +31,7 @@ public class MonitoringController implements CommandLineRunner {
   public void run(String... args) throws Exception {
     if (args.length > 0) {
       LOG.info("Starting to process the hosts");
-      for (String arg : args) {
+      for (String arg : args[0].split(",")) {
         LOG.info("starting with host: {} ", arg);
         List<String> process = displayRunningProcess(arg);
         List<String> cpu = displayCpuProcess(arg);
@@ -49,7 +50,8 @@ public class MonitoringController implements CommandLineRunner {
       }
 
     } else {
-      LOG.error("please, pass at least 1 argument");
+      LOG.error(
+          "please, please pass the argument with IPS, example: 192.168.0.1,192.170.23.1,170.39.42.01");
     }
   }
 

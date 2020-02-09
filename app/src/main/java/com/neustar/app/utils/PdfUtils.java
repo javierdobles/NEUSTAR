@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/** @author Javier Dobles */
 @Component
 public class PdfUtils {
   private static final Logger LOG = LoggerFactory.getLogger(PdfUtils.class);
@@ -26,7 +27,7 @@ public class PdfUtils {
 
     Document document = new Document();
     try {
-      LOG.info("export pdf to: {} ", System.getProperty("user.home"));
+      LOG.info("export pdf to the directory: {} ", System.getProperty("user.home"));
       PdfWriter.getInstance(
           document,
           new FileOutputStream(
@@ -42,7 +43,7 @@ public class PdfUtils {
       document.add(addParaGraph(" "));
       document.add(addChunk("CPU Report"));
       document.add(Chunk.NEWLINE);
-      String headerCpu = cpu.get(0);
+      String headerCpu = buildOutput(cpu);
       document.add(addParaGraph(headerCpu));
       document.add(Chunk.NEWLINE);
       String headerDisk = disk.get(0);
@@ -50,17 +51,17 @@ public class PdfUtils {
       document.add(Chunk.NEWLINE);
       document.add(addParaGraph(headerDisk));
       document.add(Chunk.NEWLINE);
-      String headerDiskHuman = diskHuman.get(0);
+      String headerDiskHuman = buildOutput(diskHuman);
       document.add(addChunk("DISK Human Readable Report"));
       document.add(Chunk.NEWLINE);
       document.add(addParaGraph(headerDiskHuman));
       document.add(Chunk.NEWLINE);
-      String headerMemory = memory.get(0);
+      String headerMemory = buildOutput(memory);
       document.add(addChunk("MEMORY Report"));
       document.add(Chunk.NEWLINE);
       document.add(addParaGraph(headerMemory));
       document.add(Chunk.NEWLINE);
-      String headerProcess = process.get(0);
+      String headerProcess = buildOutput(process);
       document.add(addChunk("PROCESS REPORT"));
       document.add(Chunk.NEWLINE);
       document.add(addParaGraph(headerProcess));
@@ -80,5 +81,14 @@ public class PdfUtils {
 
   private Paragraph addParaGraph(String text) {
     return new Paragraph(text);
+  }
+
+  private String buildOutput(List<String> output) {
+    StringBuilder builder = new StringBuilder();
+    for (String myLine : output) {
+      builder.append(myLine);
+    }
+
+    return builder.toString();
   }
 }

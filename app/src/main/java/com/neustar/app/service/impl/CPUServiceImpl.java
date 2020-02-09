@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
+/** @author Javier Dobles */
 @Service(value = "cpuService")
 public class CPUServiceImpl implements CPUService {
 
@@ -27,18 +28,19 @@ public class CPUServiceImpl implements CPUService {
   @Override
   public List<String> getTopThreeCpuProcess(String host) {
     Session session = context.getBean(Session.class, host);
+    List<String> result = null;
     try {
       ChannelExec channel = null;
       session.connect(Constants.TIME_OUT);
       channel = (ChannelExec) session.openChannel("exec");
-      channel.setCommand("ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head -n 4");
+      channel.setCommand("top -b -n 1 -o %CPU | head -n 10");
       channel.setInputStream(null);
       InputStream output = channel.getInputStream();
       channel.connect(Constants.TIME_OUT);
 
       String text = IOUtils.toString(output, StandardCharsets.UTF_8.name());
       channel.disconnect();
-      return Stream.of(text.split(",")).collect(Collectors.toList());
+      result = Stream.of(text.split(",")).collect(Collectors.toList());
 
     } catch (JSchException | IOException e) {
       LOG.error("something goes wrong with the execution of the command, please contact an admin");
@@ -47,9 +49,14 @@ public class CPUServiceImpl implements CPUService {
 
       session.disconnect();
     }
-    return null;
+    return result;
   }
 
+  /**
+   * CPU Services Constructor.
+   *
+   * @param context instance of {@link AnnotationConfigApplicationContext}.
+   */
   public CPUServiceImpl(AnnotationConfigApplicationContext context) {
     this.context = context;
   }

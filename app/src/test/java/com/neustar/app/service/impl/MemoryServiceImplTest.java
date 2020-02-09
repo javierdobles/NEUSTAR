@@ -49,7 +49,7 @@ class MemoryServiceImplTest {
     doNothing().when(session).disconnect();
     doNothing().when(channel).disconnect();
 
-    List<String> memoryTop = memoryService.getTopThreeMemory("TEST");
+    List<String> memoryTop = memoryService.getTopThreeMemory("100.25.143.64");
 
     assertEquals(memoryTop.size(), 2);
   }

@@ -49,7 +49,7 @@ class DiskServiceImplTest {
     doNothing().when(session).disconnect();
     doNothing().when(channel).disconnect();
 
-    List<String> diskSpace = diskService.getDiskSpace("TEST");
+    List<String> diskSpace = diskService.getDiskSpace("100.25.143.64");
 
     assertEquals(diskSpace.size(), 2);
   }
@@ -65,7 +65,7 @@ class DiskServiceImplTest {
     doNothing().when(session).disconnect();
     doNothing().when(channel).disconnect();
 
-    List<String> diskSpaceHuman = diskService.getDiskSpaceHumanReadable("TEST");
+    List<String> diskSpaceHuman = diskService.getDiskSpaceHumanReadable("100.25.143.64");
 
     assertEquals(diskSpaceHuman.size(), 2);
   }

@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
+/** @author Javier Dobles */
 @Service
 public class ProcessServicesImpl implements ProcessService {
 
@@ -27,7 +28,7 @@ public class ProcessServicesImpl implements ProcessService {
   @Override
   public List<String> getRunningProcess(final String host) {
     Session session = context.getBean(Session.class, host);
-    LOG.info("class: {}", Session.class);
+    List<String> result = null;
     try {
       ChannelExec channel = null;
       session.connect(Constants.TIME_OUT);
@@ -39,7 +40,7 @@ public class ProcessServicesImpl implements ProcessService {
 
       String text = IOUtils.toString(output, StandardCharsets.UTF_8.name());
       channel.disconnect();
-      return Stream.of(text.split(",")).collect(Collectors.toList());
+      result = Stream.of(text.split(",")).collect(Collectors.toList());
 
     } catch (JSchException | IOException e) {
       LOG.error("something goes wrong with the execution of the command, please contact an admin");
@@ -48,9 +49,14 @@ public class ProcessServicesImpl implements ProcessService {
 
       session.disconnect();
     }
-    return null;
+    return result;
   }
 
+  /**
+   * Process Services Constructor.
+   *
+   * @param context instance of {@link AnnotationConfigApplicationContext}.
+   */
   public ProcessServicesImpl(final AnnotationConfigApplicationContext context) {
     this.context = context;
   }

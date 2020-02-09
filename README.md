@@ -21,7 +21,7 @@ for the usage of the application, you need to provide your ssh credentials, you 
 Example: 
 
     com.neustar.ssh.port=22
-    com.neustar.ssh.username=you-user
+    com.neustar.ssh.username=your-user
     com.neustar.ssh.password=password
 
 after the above step is completed, please proceed with the below steps. 
